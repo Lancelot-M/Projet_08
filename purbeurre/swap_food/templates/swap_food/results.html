@@ -1,0 +1,34 @@
+{% extends "./base.html" %}
+
+        {% block Content%}
+        <!-- Changing background-->
+        <style>
+            .search-bg {
+                background-image: url("{{ research.photo }}");
+            }
+        </style>
+        <!-- Research -->
+        <div class="container-fluid searchealthy d-flex align-items-center justify-content-center search-bg">
+            <div class="bg-white mt-5 px-4 py-2 shadow-lg rounded">{{ research.name }}</div>
+        </div>
+        <div class="container-fluid text-dark">
+            <div class="row mt-5 pt-5 text-center">
+                <div class="col">Vous pouvez remplacer cet aliment par:</div>
+            </div>
+            <div class="row align-content-end justify-content-center third-screen">
+            {% if aliments_list %}
+                {% for aliment in aliments_list %}
+                    <div class="col-8 col-md-3 m-4 pt-3 text-center">
+                        <img src="{{ aliment.photo }}" class="img-healthy">
+                        <div class="nutriscore rounded-circle">{{ aliment.note }}</div>
+                        <div>{{ aliment.name }} --- {{ aliment.photo }} ---</div>
+                        <div><i class="fas fa-save"></i> Sauvegarder</div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2>>__< On n'a pas ça en stock chef !! O_o</h2>
+            {% endif %}
+            </div>
+        </div>
+        <!-- Results -->
+        {% endblock %}
