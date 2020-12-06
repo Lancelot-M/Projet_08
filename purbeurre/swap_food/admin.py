@@ -1,3 +1,12 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Aliment, Additive
+
+class AlimentAdmin(admin.ModelAdmin):
+    pass
+
+class AdditiveAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Aliment, AlimentAdmin)
+admin.site.register(Additive, AdditiveAdmin)
