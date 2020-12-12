@@ -1,0 +1,31 @@
+{% extends "./header.html" %}
+{% load static %}
+
+{% block Content %}
+    <div class="container-fluid text-dark third-screen">
+        <div class="row my-5 justify-content-around">
+            <div class="col-md-5 ml-md-5 mb-5 text-center">
+                <img src="{% static 'swap_food/assets/' %}{{ aliment.nutrition_grade }}.png">
+            </div>
+            <div class="col-md-5 mr-md-5">
+                <div class="row text-md-right text-center">
+                    <div class="col">Repères nutritionnels pour 100g.</div>
+                </div>
+                <div class="row justify-content-md-end justify-content-center text-right">
+                    <div class="col-4 rounded {{ nutrition.proteines.0 }}">PROTEINES : {{ nutrition.proteines.1 }}g</div>
+                </div>
+                <div class="row justify-content-md-end justify-content-center text-right">
+                    <div class="col-4 rounded {{ nutrition.glucides.0 }}">GLUCIDES : {{ nutrition.glucides.1 }}g</div>
+                </div>
+                <div class="row justify-content-md-end justify-content-center text-right">
+                    <div class="col-4 rounded {{ nutrition.lipides.0 }}">LIPIDES : {{ nutrition.lipides.1 }}g</div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center align-self-end mt-5">
+            <div class="col-8 bg-secondary text-center border border-dark p-3">
+                <a href="{{ aliment.source }}">Voir la fiche d'OpenFoodFacts</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "./base.html" %}
+
+    {% block research_background %}
+        <style>
+            .search-bg {
+                background-image: url("{{ background }}");
+            }
+        </style>
+    {% endblock %}
+    {% block header %}
+        <div class="container-fluid searchealthy d-flex align-items-center justify-content-center search-bg">
+            <div class="mt-5 px-5 py-3 rounded-circle bubble">{{ research }}</div>
+        </div>
+    {% endblock %}

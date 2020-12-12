@@ -10165,15 +10165,19 @@ header.masthead h1 {
 .searchealthy {
   background-repeat: no-repeat;
   background-position: center;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.5);
   height: 300px;
   justify-content: center;
   align-items: center;
 }
 
+.bubble {
+  background: white;
+}
+
 .img-healthy {
-  height: 200px;
-  width: 100%;
+  max-height: 200px;
+  max-width: 100%;
 }
 
 .third-screen {
@@ -10182,9 +10186,13 @@ header.masthead h1 {
 
 .nutriscore {
   position: absolute;
-  top: 8px;
-  right: 10px;
+  top: 0px;
+  right: 0px;
   background-color: #C45525;
   color: #86EBE6;
   padding: 5px 12px 5px 12px;
+}
+
+.bg-yellow {
+  background-color: #FEF451;
 }
