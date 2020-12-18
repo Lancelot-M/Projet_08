@@ -1,13 +1,12 @@
-from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest, Http404
 from django.template import loader
-from .models import Aliment, Nutrition
+from swap_food.models import Aliment, Nutrition
 
-def index(request):
-    template = loader.get_template("swap_food/index.html")
+def home(request):
+    template = loader.get_template("swap_food/home.html")
     return HttpResponse(template.render(request=request))
 
-def search(request):
+def research(request):
     if request.method == 'GET':
         try:
             searched_aliment = request.GET["search_food"].lower()

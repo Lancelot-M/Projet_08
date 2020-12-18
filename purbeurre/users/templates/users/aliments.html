@@ -1,25 +1,28 @@
-{% extends "header.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block addcss %}
-    <link href="{% static 'swap_food/style.css' %}" rel="stylesheet" />
+    <link href="{% static 'users/style.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block Header %}
+    <div class="container-fluid searchealthy d-flex align-items-center justify-content-center aliments-bg">
+        <div class="mt-5 px-5 py-3 rounded bubble">MES ALIMENTS ENREGISTRES</div>
+    </div>
 {% endblock %}
 {% block Content %}
-    <!-- Research -->
-    {% if aliments_list %}
+   {% if aliments_list %}
         <div class="container-fluid text-dark">
             <div class="row mt-2 pt-5 text-center">
                 <div class="col">Vous pouvez remplacer cet aliment par:</div>
             </div>
             <div class="row align-content-end justify-content-center third-screen">
             {% for aliment in aliments_list %}
-                <div class="col-8 col-md-3 m-4 text-center border">
+                <div class="col-8 col-md-3 m-4 pt-3 text-right">
                     <div>
                         <img src="{{ aliment.image }}" class="img-healthy">
                         <div class="nutriscore rounded-circle">{{ aliment.nutrition_grade }}</div>
                     </div>
                     <a href="/info/{{ aliment.name }}">{{ aliment.name }}</a>
-                    <div><i class="fas fa-save"></i> Sauvegarder</div>
                 </div>
             {% endfor %}
             </div>
@@ -27,8 +30,7 @@
     {% else %}
         <div class="container-fluid text-dark">
             <div class="mt-5 pt-5 text-center third-screen">
-                <h4>Nous n'avons pas ça en stock. O_o</h4>
-                <p>Peut être avec une autre orthographe ?</p>
+                <h4>Rien d'enregistré actuellement.</h4>
             </div>
         </div>
     {% endif %}

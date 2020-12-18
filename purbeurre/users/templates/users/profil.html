@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block addcss %}
+    <link href="{% static 'users/style.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block Header %}
+    <div class="container-fluid searchealthy d-flex align-items-center justify-content-center profil-bg">
+        <div class="mt-5 px-5 py-3 rounded bubble text-center"> MON PROFIL<br>--- {{ user.username }} ---</div>
+    </div>
+{% endblock %}
+{% block Content %}
+    <div class="profil d-flex align-items-center justify-content-center">
+        <div class="border p-2 bg-secondary">EMAIL: <span class="text-info">{{ user.email }}</span></div>
+    </div>
+{% endblock %}

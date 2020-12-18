@@ -1,6 +1,9 @@
-{% extends "./header.html" %}
+{% extends "header.html" %}
 {% load static %}
 
+{% block addcss %}
+    <link href="{% static 'swap_food/style.css' %}" rel="stylesheet" />
+{% endblock %}
 {% block Content %}
     <div class="container-fluid text-dark third-screen">
         <div class="row my-5 justify-content-around">
