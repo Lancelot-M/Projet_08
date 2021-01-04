@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block addcss %}
+    <link href="{% static 'swap_food/style.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block Content %}
+
+    <div class="container mentions pb-3">
+        <h2>IDENTIFICATION</h2>
+            <h4>Dénomination sociale ou raison sociale</h4>
+                <p>Startup PURBEURRE</p>
+            <h4>Adresse du siège social</h4>
+                <p class="class-mention-legal">66 rue de la ratatouille 75000 PARIS</p>
+
+            <h4>Numéro de téléphone et adresse de courrier électronique</h4>
+
+                <p>ColetteetRemy@purbeurre.com</p>
+                <p>01........</p>
+            <h4>Forme juridique de la société (SA, SARL, SNC, SAS, etc.)</h4>
+                <p>RATS</p>
+            <h4>Montant du capital social</h4>
+                <p>1 000 000 $</p>
+            <h4>Nom du directeur ou du codirecteur de la publication</h4>
+                <p>Mr Linguine</p>
+            <h4>Nom, dénomination ou raison sociale et adresse et numéro de téléphone de l'hébergeur de son site</h4>
+                <p>HEROKU 415 Mission Street Suite 300 San Francisco, CA 94105</p>
+                <p>Tel: (415) 520-5622</p>
+        <h2>ACTIVITE</h2>
+            <h4>De la ratatouille aux croissants</h4>
+                <p>Pur Beurre est l'initiative de deux amoureux de la gastronomie française, Colette Tatou et Rémy, que vous avez déjà certainement rencontrés dans notre excellent restaurant Ratatouille.</p>
+                <p>nunméro d'inscription au répertoire des métiers: xxx-xxx-xxx</p>
+    </div>
+{% endblock %}

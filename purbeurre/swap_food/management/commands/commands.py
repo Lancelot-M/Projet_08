@@ -100,6 +100,7 @@ class ImportData():
                 return self.data
             self.filter_tags()
             self.data = {}
+            return None
         else:
             self.data = f"{category_name} ---> {request.status_code}"
             return self.data
@@ -114,7 +115,7 @@ class ImportData():
         if self.make_relation(product) == "ERROR WITH DB":
             return "ERROR WITH DB"
         name = product["category"]
-        print(f"ADD PRODUCT IN {name}")
+        #print(f"ADD PRODUCT IN {name}")
 
     def get_or_create_nutriment(self, nutriment):
         """create_product: add nutriment in db if doesn't exist"""
@@ -133,18 +134,14 @@ class ImportData():
             a = Aliment(category=product["category"], source=product["url"],
                     image=product["image_url"], name=product["product_name_fr"],
                     nutrition_grade=product["nutrition_grade_fr"]) 
-            a.save(product["category"])
-            print()
+            a.save()
             return None
 
     def make_relation(self, product):
         """create_product: make relation aliment/nutriment throught nutrition"""
         try:
             a = Aliment.objects.get(name=product["product_name_fr"])
-            for key, value in product["nutriments"].items():
-                d = Nutriment.objects.get(name=key)
-                n = Nutrition(aliment=a, nutriment=d, value=value)
-                n.save()
+            a.add_nutriment(product["nutriments"])
         except:
             return "ERROR WITH DB"
 

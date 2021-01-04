@@ -3,7 +3,9 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from users.forms import CustomUserCreationForm
 from users.models import MyUser
-from django.http import Http404
+from swap_food.models import Aliment
+from django.http import Http404, HttpResponse
+import json
 
 def register(request):
     if request.method == "GET":
@@ -33,3 +35,9 @@ def aliments(request):
         )
     else:
         raise Http404("YOU ARE NOT LOGGED !")
+
+def saving(request):
+    if request.method == "POST":
+        request.user.save_aliment(request.POST["aliment"])
+        aliment_name = json.dumps(request.POST["aliment"])
+        return HttpResponse(aliment_name)

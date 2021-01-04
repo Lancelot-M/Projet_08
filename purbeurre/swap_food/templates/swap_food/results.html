@@ -4,6 +4,10 @@
 {% block addcss %}
     <link href="{% static 'swap_food/style.css' %}" rel="stylesheet" />
 {% endblock %}
+{% block Scripts %}
+    <script src="{% static 'scripts.js' %}"></script>
+    <script src="{% static 'swap_food/saving.js' %}"></script>
+{% endblock %}
 {% block Content %}
     <!-- Research -->
     {% if aliments_list %}
@@ -13,13 +17,17 @@
             </div>
             <div class="row align-content-end justify-content-center third-screen">
             {% for aliment in aliments_list %}
-                <div class="col-8 col-md-3 m-4 text-center border">
+                <div class="col-8 col-md-3 m-4 text-center border bg-light">
                     <div>
                         <img src="{{ aliment.image }}" class="img-healthy">
                         <div class="nutriscore rounded-circle">{{ aliment.nutrition_grade }}</div>
                     </div>
-                    <a href="/info/{{ aliment.name }}">{{ aliment.name }}</a>
-                    <div><i class="fas fa-save"></i> Sauvegarder</div>
+                    <a href="/info/{{ aliment.name }}">{{ aliment.name }}</a><br>
+                    {% if user.is_authenticated %}
+                        <div id="{{ aliment.name }}" class="saving"><i class="fas fa-save"></i> Sauvegarder</div>
+                    {% else %}
+                        <a href="{% url 'login' %}"><i class="fas fa-save"></i> Sauvegarder</a>
+                    {% endif %}
                 </div>
             {% endfor %}
             </div>
@@ -32,4 +40,21 @@
             </div>
         </div>
     {% endif %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Succès</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

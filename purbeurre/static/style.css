@@ -64,9 +64,12 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
+  /*  for ratouille 
   color: #C45525;
-  text-align: left;
   background-color: #E8A75D;
+  */
+  text-align: left;
+  color: #E8A75D;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -10140,7 +10143,12 @@ hr.light {
 }
 
 .third-screen {
-  min-height: 550px;
+  min-height: 600px;
+}
+
+.img-healthy {
+  max-height: 200px;
+  max-width: 100%;
 }
 
 .nutriscore {

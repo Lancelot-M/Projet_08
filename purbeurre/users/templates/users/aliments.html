@@ -6,18 +6,18 @@
 {% endblock %}
 {% block Header %}
     <div class="container-fluid searchealthy d-flex align-items-center justify-content-center aliments-bg">
-        <div class="mt-5 px-5 py-3 rounded bubble">MES ALIMENTS ENREGISTRES</div>
+        <div class="mt-5 px-5 py-3 rounded bubble text-primary">MES ALIMENTS ENREGISTRES</div>
     </div>
 {% endblock %}
 {% block Content %}
    {% if aliments_list %}
         <div class="container-fluid text-dark">
             <div class="row mt-2 pt-5 text-center">
-                <div class="col">Vous pouvez remplacer cet aliment par:</div>
+                <div class="col text-secondary">Vos aliments favoris :</div>
             </div>
-            <div class="row align-content-end justify-content-center third-screen">
+            <div class="row align-content-start justify-content-center third-screen">
             {% for aliment in aliments_list %}
-                <div class="col-8 col-md-3 m-4 pt-3 text-right">
+                <div class="col-8 col-md-3 m-4 pt-3 text-center bg-light">
                     <div>
                         <img src="{{ aliment.image }}" class="img-healthy">
                         <div class="nutriscore rounded-circle">{{ aliment.nutrition_grade }}</div>
