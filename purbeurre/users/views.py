@@ -8,17 +8,16 @@ from django.http import Http404, HttpResponse
 import json
 
 def register(request):
-    if request.method == "GET":
-        return render(
-            request, "users/register.html",
-            {"form": CustomUserCreationForm}
-        )
-    elif request.method == "POST":
+    if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect(reverse("home"))
+    return render(
+        request, "users/register.html",
+        {"form": CustomUserCreationForm}
+    )
 
 def profil(request):
     if request.method == "GET":

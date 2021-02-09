@@ -1,9 +1,10 @@
 from swap_food.models import Nutrition
 
 class Services():
-
+    """Services class for swap_food views."""
     @staticmethod
     def info_aliment(aliment):
+        """Format nutrition value to list ["color", value]"""
         query = Nutrition.objects.filter(aliment=aliment)
         nutrition_data = {}
         for query_element in query:

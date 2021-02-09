@@ -3,7 +3,7 @@ from django.test import Client
 client = Client()
 def test_home(client):
     """test home page view"""
-    response = client.get('/home/')
+    response = client.get('')
     assert response.status_code == 200
 
 def test_research(client, db):

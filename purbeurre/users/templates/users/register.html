@@ -6,9 +6,9 @@
 {% endblock %}
 
 {% block Content %}
-<div class="login py-3">
-    <h3>Création d'un compte.</h3>
-    <form method="post">
+<div class="login bg-secondary p-3">
+    <h3 class="text-dark">Création d'un compte.</h3>
+    <form method="post" class="text-dark">
         {% csrf_token %}
         {{ form.as_p}}
         <input type="submit" value="Créer">
