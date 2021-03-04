@@ -190,7 +190,7 @@ class ImportData():
             self.products_to_import.append(product)
 
 class DeleteData():
-    """Clean all datas from db swap_app use carefully."""
+    """Clean all datas from db swap_app"""
     def clean_all(self):
         a = Aliment.objects.all().delete()
         a = Nutriment.objects.all().delete()

@@ -1,4 +1,5 @@
-# ---------------    DATA FOR IMPORT_DATA COMMAND    -----------
+""" DATA FOR IMPORT_DATA COMMAND """
+
 KEEPED_DATA = [
             "category",
             "product_name_fr",
@@ -13,4 +14,3 @@ NUTRIMENTS_LIST = [
             "proteins_100g",
             "salt_100g",
         ]
-# ------------------------------------------------------------

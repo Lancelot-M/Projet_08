@@ -1,6 +1,7 @@
-from django.urls import path, include
-from . import views
+"""Path file"""
 
+from django.urls import path
+from swap_food import views
 
 urlpatterns = [
     path('', views.home, name='home'),

@@ -5,9 +5,12 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import ActionChains
 import time
 
-"""a user sign in, search "nutella", add a product in favorites and look aliments page"""
+opts = Options()
+opts.headless = True
+assert opts.headless  # Operating in headless mode
 
-driver = Chrome()
+"""a user sign in, search "nutella", add a product in favorites and look aliments page"""
+driver = Chrome(options=opts)
 driver.get('http://localhost:8000/')
 assert "Pur Beurre" in driver.title
 

@@ -1,15 +1,16 @@
-from django.contrib import admin
+"""Admin file"""
 
-from .models import Aliment, Nutrition, Nutriment
+from django.contrib import admin
+from swap_food.models import Aliment, Nutrition, Nutriment
 
 class AlimentAdmin(admin.ModelAdmin):
-    pass
+    """AlimentAdmin model"""
 
 class NutrimentAdmin(admin.ModelAdmin):
-    pass
+    """NutrimentAdmin model"""
 
 class NutritionAdmin(admin.ModelAdmin):
-    pass
+    """NutritionAdmin model"""
 
 admin.site.register(Aliment, AlimentAdmin)
 admin.site.register(Nutriment, NutrimentAdmin)

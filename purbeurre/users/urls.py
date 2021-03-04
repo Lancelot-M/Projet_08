@@ -1,3 +1,5 @@
+"""Path file"""
+
 from django.urls import path, include
 from users.views import register, profil, aliments, saving
 

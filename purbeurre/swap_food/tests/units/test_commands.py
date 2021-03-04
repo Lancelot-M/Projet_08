@@ -1,9 +1,11 @@
+"""test commands file"""
+
 import pytest
 from swap_food.management.commands.commands import DumpsCategories, ImportData, DeleteData
 from swap_food.models import Aliment, Nutriment, Nutrition
 from django.core.exceptions import ObjectDoesNotExist
 
-class Test_Dumps_Command():
+class TestDumpsCommand():
     """ class test for DumpsCategories. """
 
     @pytest.fixture
@@ -49,7 +51,6 @@ class Test_Dumps_Command():
         """test function eponym"""
         def mock_get_taxonomies(self):
             """mock get_taxonomies"""
-            pass
         def mock_reverse_taxonomies(self):
             """mock reverse_taxonomies()"""
             self.categories = ["en:banana", "en:chocolat", "en:ice-cream"]
@@ -73,6 +74,7 @@ class Test_Dumps_Command():
                     self.json_data = json_data
                     self.status_code = status_code
                 def json(self):
+                    """mocking response"""
                     return self.json_data
             data = {
                 "bg:cakap": {
@@ -168,7 +170,7 @@ class Test_Dumps_Command():
             ]
         }
 
-class Test_ImportData():
+class TestImportData():
     """test class eponym"""
     @pytest.fixture
     def object_test(self):
@@ -191,9 +193,6 @@ class Test_ImportData():
                         "fat_100g": "1",
                         "proteins_100g": "1",
                         "salt_100g": "1",
-
-
-
                     },
                 },
                 {
@@ -205,7 +204,6 @@ class Test_ImportData():
                     "url": "path/to/url",
                 }
             ]
-            return None
 
         monkeypatch.setattr(ImportData, "get_category", mock_get_category)
         returned = object_test.make_import(9, 10)
@@ -213,7 +211,6 @@ class Test_ImportData():
         glucide = Nutriment.objects.get(name="carbohydrates_100g")
         nutriments_list = [element.name for element in alim.nutriments.all()]
         alimenta_glucide = Nutrition.objects.get(aliment=alim, nutriment=glucide)
-        
         assert alim.name == "aliment_a"
         assert returned == "END OF MAKE IMPORT"
         assert alimenta_glucide.value == "suga"
@@ -244,10 +241,12 @@ class Test_ImportData():
         def mock_requests_get(url):
             """mocking function get"""
             class MockRequests:
+                """mocking the requests return"""
                 def __init__(self, json_data, status_code):
                     self.json_data = json_data
                     self.status_code = status_code
                 def json(self):
+                    """data returned"""
                     return self.json_data
             data = {
                 "count": "18345",
@@ -273,7 +272,6 @@ class Test_ImportData():
                         "vegan": "maybe",
                         "vegetarian": "maybe"
                     }
-
                 ]
             }
             return MockRequests(data, 200)
@@ -298,6 +296,7 @@ class Test_ImportData():
                     self.json_data = json_data
                     self.status_code = status_code
                 def json(self):
+                    """mock data returned"""
                     return self.json_data
             data = { "datas" : "some unusable datas" }
             return MockRequest(data, 200)
@@ -325,6 +324,7 @@ class Test_ImportData():
         assert object_test.get_category("category_with_error") == "category_with_error ---> 404"
 
     def test_get_or_create_nutriment_already_exist(self, db, object_test):
+        """if sugar already exist"""
         a1 = Nutriment(name="sugar")
         a1.save()
         object_test.get_or_create_nutriment("sugar")
@@ -332,11 +332,13 @@ class Test_ImportData():
         assert len(a2) == 1
 
     def test_get_or_create_nutriment_not_exist(self, db, object_test):
+        """if sugar isn't in db"""
         object_test.get_or_create_nutriment("sugar")
         a1 = Nutriment.objects.all()
         assert a1[0].name == "sugar"
 
     def test_get_or_create_aliment_already_exist(self, db, object_test):
+        """aliment "chocolate" already in db"""
         product = {
             "allergens": "-- unknow --",
             "additives_tags": [
@@ -370,6 +372,7 @@ class Test_ImportData():
         assert result == "ALREADY EXIST"
 
     def test_get_or_create_aliment_not_exist(self, db, object_test):
+        """aliment "chocolate" not in db"""
         product = {
             "category": "category_name",
             "image_url": "path/to/url",
@@ -393,7 +396,7 @@ class Test_ImportData():
         assert result == None
 
     def test_make_relation_is_ok(self, db, monkeypatch, object_test):
-        
+        """test make_relation() with valid data"""
         def mock_add_nutriment(self, nutriments_data):
             """make link between aliment and nutriment"""
             aliment = Aliment.objects.get(name="chocolate")
@@ -429,16 +432,16 @@ class Test_ImportData():
                     nutrition_grade=product["nutrition_grade_fr"])
         aliment.save()
         returned_value = object_test.make_relation(product)
-        
         aliment = Aliment.objects.get(name="chocolate")
         nutriment = Nutriment.objects.get(name="proteins_100g")
         nutrition = Nutrition.objects.get(aliment=aliment, nutriment=nutriment)
         assert aliment.category == "category_name"
         assert nutriment.name == "proteins_100g"
         assert nutrition.value == "1"
-        assert returned_value == None
+        assert returned_value is None
 
     def test_make_relation_got_exception(self, db, object_test):
+        """test make_relation() with unvalid data"""
         product = {
             "allergens": "-- unknow --",
             "additives_tags": [
@@ -570,6 +573,7 @@ class Test_ImportData():
             ]
 
     def test_filter_category_no_data(self, object_test):
+        """test with unvalid data"""
         object_test.data = {
             "key1": "",
             "key2": "",
@@ -579,6 +583,7 @@ class Test_ImportData():
         assert object_test.data == "PRODUCT ERROR IN THIS CATEGORY"
 
     def test_filter_category_few_products(self, object_test):
+        """test with unvalid params"""
         object_test.data = {
             "key1": "",
             "key2": "",
@@ -704,7 +709,7 @@ class Test_ImportData():
             },
         ]
 
-class Test_DeleteData():
+class TestDeleteData():
     """test cleaning class"""
     def test_clean_all(self, db):
         """test if all tables are deleted"""
@@ -715,13 +720,10 @@ class Test_DeleteData():
         nutrition = Nutrition(aliment=aliment, nutriment=nutriment, value="something")
         nutrition.save()
         object_test = DeleteData()
-
         object_test.clean_all()
-
         aliment = Aliment.objects.all().exists()
         nutriment = Nutriment.objects.all().exists()
         nutrition = Nutrition.objects.all().exists()
-
         assert aliment == False
         assert nutriment == False
         assert nutrition == False

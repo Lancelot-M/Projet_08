@@ -5,6 +5,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import ActionChains
 import time
 
+opts = Options()
+opts.headless = True
+assert opts.headless  # Operating in headless mode
+
 """user_test log in and look his home page"""
 driver = Chrome()
 driver.get('http://localhost:8000/')
@@ -31,7 +35,7 @@ login = driver.find_element_by_css_selector("ul > li:nth-child(2)")
 login.click()
 time.sleep(1)
 mail = driver.find_element_by_css_selector(".profil > div > span")
-mail.text == "user_test@exemple.com"
+assert mail.text == "user_test@exemple.com"
 
 button = driver.find_element_by_css_selector("span")
 button.click()

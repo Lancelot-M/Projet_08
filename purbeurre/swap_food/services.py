@@ -1,3 +1,5 @@
+"""File with subfunction from views.py"""
+
 from swap_food.models import Nutrition
 
 class Services():
