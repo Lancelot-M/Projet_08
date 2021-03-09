@@ -28,7 +28,7 @@ Attention toutefois à appliquer le nom de l'ancienne image à la nouvelle.
 L'application "swap_food" offre 3 commandes permettant l'interaction entre les données d'openfoodfact et la base de 
 données de l'application. Elles sont activées par, leur nom précédé de "python manage.py". (ex: python manage.py delete_all)
 
-dumps_category : Permet la création d'un fichier recensant les catégories alimentaires existantes sur le site openfoodfact. 
+dumps_category : Permet la création d'un fichier recensant les catégories alimentaires existantes sur le site openfoodfact.   
 import_data XX XX : Permet le remplissage de la base de donnée de l'application de la ligne XX à la ligne XX du fichier créé par la commande "dumps_categories".  
 delete_all : Supprime tous les aliments de la base de donnée.  
 
