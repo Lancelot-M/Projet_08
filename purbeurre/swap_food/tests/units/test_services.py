@@ -1,5 +1,6 @@
-from swap_food.models import Aliment, Nutriment, Nutrition
+from swap_food.models import Aliment, Nutriment
 from swap_food.services import Services
+
 
 class Test_Services():
     """test view's services file"""

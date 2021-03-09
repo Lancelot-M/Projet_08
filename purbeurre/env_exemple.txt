@@ -1,0 +1,5 @@
+SECRET_KEY = 'fsijf,lq;scflq,fcŝ;$fvsdkôk'
+DB_NAME="projet8_purbeurre"
+DB_USER="projet8_purbeurre"
+DB_PASSWORD="projet8_purbeurre"
+DB_HOST="localhost"

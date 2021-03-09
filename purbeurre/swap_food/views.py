@@ -4,9 +4,11 @@ from django.shortcuts import render
 from swap_food.models import Aliment
 from swap_food.services import Services
 
+
 def home(request):
     """Home page of the website"""
     return render(request, "swap_food/home.html")
+
 
 def research(request):
     """Results of food research page"""
@@ -14,8 +16,8 @@ def research(request):
         try:
             searched_aliment = request.GET["search_food"].lower()
             aliment = Aliment.objects.get(name=searched_aliment)
-            aliments_list = Aliment.objects.filter(category=aliment.\
-                category).order_by("nutrition_grade")[:9]
+            aliments_list = Aliment.objects.filter(category=aliment.category)\
+                .order_by("nutrition_grade")[:9]
         except Aliment.DoesNotExist:
             return render(
                 request, "swap_food/results.html",
@@ -30,6 +32,7 @@ def research(request):
             }
         )
     return None
+
 
 def info(request, aliment_name):
     """Food's detail page."""
@@ -46,6 +49,7 @@ def info(request, aliment_name):
             }
         )
     return None
+
 
 def mentions(request):
     """Legals mentions"""

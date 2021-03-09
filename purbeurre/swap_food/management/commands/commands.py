@@ -1,7 +1,10 @@
-import requests, json, copy
+import requests
+import json
+import copy
 from swap_food.config import KEEPED_DATA, NUTRIMENTS_LIST
-from swap_food.models import Aliment, Nutriment, Nutrition
+from swap_food.models import Aliment, Nutriment
 from django.core.exceptions import ObjectDoesNotExist
+
 
 class DumpsCategories():
     """class who generate a file with all usable categories"""
@@ -15,7 +18,8 @@ class DumpsCategories():
         self.get_all_categories()
         self.categories_without_childs()
         with open("swap_food/management/commands/categories.json", "w") as f:
-            f.write(json.dumps(self.without_child, indent=4, sort_keys=True, ensure_ascii=False))
+            f.write(json.dumps(self.without_child, indent=4, sort_keys=True,
+                               ensure_ascii=False))
 
     def get_all_categories(self):
         """make_dump: get all "en:" categories"""
@@ -66,6 +70,7 @@ class DumpsCategories():
                     reversed_taxonomy[parent] = [child]
         self.taxonomies = reversed_taxonomy
 
+
 class ImportData():
     """get products from off and add them in database"""
     def __init__(self):
@@ -78,7 +83,7 @@ class ImportData():
             all_categories = json.load(f)
         for category in all_categories[start:end]:
             result = self.get_category(category)
-            if  type(result) is str:
+            if type(result) is str:
                 if result == "PRODUCT ERROR IN THIS CATEGORY":
                     print(f"PRODUCT ERROR IN THIS CATEGORY : {category}")
                 else:
@@ -114,8 +119,6 @@ class ImportData():
             self.get_or_create_nutriment(key)
         if self.make_relation(product) == "ERROR WITH DB":
             return "ERROR WITH DB"
-        name = product["category"]
-        #print(f"ADD PRODUCT IN {name}")
 
     def get_or_create_nutriment(self, nutriment):
         """create_product: add nutriment in db if doesn't exist"""
@@ -132,32 +135,35 @@ class ImportData():
             return "ALREADY EXIST"
         except ObjectDoesNotExist:
             a = Aliment(category=product["category"], source=product["url"],
-                    image=product["image_url"], name=product["product_name_fr"],
-                    nutrition_grade=product["nutrition_grade_fr"]) 
+                        image=product["image_url"],
+                        name=product["product_name_fr"],
+                        nutrition_grade=product["nutrition_grade_fr"])
             a.save()
             return None
 
     def make_relation(self, product):
-        """create_product: make relation aliment/nutriment throught nutrition"""
+        """create_product: relation aliment/nutriment throught nutrition"""
         try:
             a = Aliment.objects.get(name=product["product_name_fr"])
             a.add_nutriment(product["nutriments"])
-        except:
+        except ObjectDoesNotExist:
             return "ERROR WITH DB"
 
     def filter_category(self, category_name):
-        """get_category: remove product without required tags or minimum number"""
+        """get_category: remove product without required tags"""
         if "products" not in self.data:
             self.data = "PRODUCT ERROR IN THIS CATEGORY"
             return
-        self.data = self.data["products"] 
+        self.data = self.data["products"]
+
         def checker(product):
-            for tag in ["product_name_fr", "image_url", "url", "nutrition_grade_fr", "nutriments"]:
+            for tag in ["product_name_fr", "image_url", "url",
+                        "nutrition_grade_fr", "nutriments"]:
                 if tag not in product:
                     return False
                 elif product[tag] == "":
                     return False
-            return True 
+            return True
         self.data = list(filter(checker, self.data))
         if len(self.data) <= 3:
             self.data = "PRODUCT ERROR IN THIS CATEGORY"
@@ -175,7 +181,8 @@ class ImportData():
                         nutri_dict = {}
                         for nutriment in NUTRIMENTS_LIST:
                             if nutriment in element[tag]:
-                                nutri_dict[nutriment] = str(element[tag][nutriment])
+                                nutri_dict[nutriment] = str(element[tag]
+                                                            [nutriment])
                             else:
                                 nutri_dict[nutriment] = "?"
                         product[tag] = nutri_dict
@@ -184,13 +191,14 @@ class ImportData():
                     elif tag == "product_name_fr":
                         product[tag] = element[tag].replace("\n", "").lower()
                     else:
-                        product[tag] =  element[tag]
+                        product[tag] = element[tag]
                 else:
                     product[tag] = "unknow"
             self.products_to_import.append(product)
 
+
 class DeleteData():
     """Clean all datas from db swap_app"""
     def clean_all(self):
-        a = Aliment.objects.all().delete()
-        a = Nutriment.objects.all().delete()
+        Aliment.objects.all().delete()
+        Nutriment.objects.all().delete()

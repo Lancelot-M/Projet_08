@@ -2,6 +2,7 @@
 
 from swap_food.models import Nutrition
 
+
 class Services():
     """Services class for swap_food views."""
     @staticmethod

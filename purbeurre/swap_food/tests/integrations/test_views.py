@@ -1,17 +1,18 @@
 """Testing views file"""
 
-import pytest
 from django.test import Client
 from swap_food.models import Aliment, Nutriment
 from pytest_django.asserts import assertTemplateUsed, assertContains
 
 client = Client()
 
+
 def test_home(client):
     """test home page view"""
     response = client.get('')
     assert response.status_code == 200
     assertTemplateUsed(response, 'swap_food/home.html')
+
 
 def test_research(client, db):
     """test search food view"""
@@ -34,6 +35,7 @@ def test_research(client, db):
     assertTemplateUsed(response, 'swap_food/results.html')
     assertContains(response, "nutella")
 
+
 def test_info(client, db):
     """test info food page"""
     aliment = Aliment(name="nutella")
@@ -54,6 +56,7 @@ def test_info(client, db):
     assert response.status_code == 200
     assertTemplateUsed('swap_food/info.html')
     assertContains(response, "PROTEINES : 0.1")
+
 
 def test_mention(client):
     """test mention food"""

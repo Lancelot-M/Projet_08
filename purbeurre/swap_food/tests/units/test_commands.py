@@ -1,9 +1,10 @@
 """test commands file"""
 
 import pytest
-from swap_food.management.commands.commands import DumpsCategories, ImportData, DeleteData
+from swap_food.management.commands.commands import DumpsCategories,\
+    ImportData, DeleteData
 from swap_food.models import Aliment, Nutriment, Nutrition
-from django.core.exceptions import ObjectDoesNotExist
+
 
 class TestDumpsCommand():
     """ class test for DumpsCategories. """
@@ -23,6 +24,7 @@ class TestDumpsCommand():
                 def __init__(self, json_data, status_code):
                     self.json_data = json_data
                     self.status_code = status_code
+
                 def json(self):
                     return self.json_data
             data = {
@@ -59,8 +61,10 @@ class TestDumpsCommand():
                 "en:ice-cream": ["child-E"],
                 "parent-3": ["child-A", "child-B", "child-C"]
             }
-        monkeypatch.setattr(DumpsCategories, 'get_taxonomies', mock_get_taxonomies)
-        monkeypatch.setattr(DumpsCategories, 'reverse_taxonomies', mock_reverse_taxonomies)
+        monkeypatch.setattr(DumpsCategories, 'get_taxonomies',
+                            mock_get_taxonomies)
+        monkeypatch.setattr(DumpsCategories, 'reverse_taxonomies',
+                            mock_reverse_taxonomies)
         object_test.categories_without_childs()
         assert object_test.without_child == ["banana", "chocolat"]
 
@@ -73,6 +77,7 @@ class TestDumpsCommand():
                 def __init__(self, json_data, status_code):
                     self.json_data = json_data
                     self.status_code = status_code
+
                 def json(self):
                     """mocking response"""
                     return self.json_data
@@ -170,8 +175,10 @@ class TestDumpsCommand():
             ]
         }
 
+
 class TestImportData():
     """test class eponym"""
+
     @pytest.fixture
     def object_test(self):
         """setup who initialize a objet ImportData for test"""
@@ -189,7 +196,7 @@ class TestImportData():
                     "product_name_fr": "aliment_a",
                     "nutrition_grade_fr": "a",
                     "nutriments": {
-                        "carbohydrates_100g" : "suga",
+                        "carbohydrates_100g": "suga",
                         "fat_100g": "1",
                         "proteins_100g": "1",
                         "salt_100g": "1",
@@ -210,15 +217,17 @@ class TestImportData():
         alim = Aliment.objects.get(name="aliment_a")
         glucide = Nutriment.objects.get(name="carbohydrates_100g")
         nutriments_list = [element.name for element in alim.nutriments.all()]
-        alimenta_glucide = Nutrition.objects.get(aliment=alim, nutriment=glucide)
+        alimenta_glucide = Nutrition.objects.get(aliment=alim,
+                                                 nutriment=glucide)
         assert alim.name == "aliment_a"
         assert returned == "END OF MAKE IMPORT"
         assert alimenta_glucide.value == "suga"
-        assert nutriments_list == ["carbohydrates_100g","fat_100g",
-            "proteins_100g","salt_100g",]
+        assert nutriments_list == ["carbohydrates_100g", "fat_100g",
+                                   "proteins_100g", "salt_100g"]
 
     def test_make_import_category_error(self, monkeypatch, object_test):
         """test fail import cause error in one category """
+
         def mock_get_category(self, category_name):
             return "sweetened-beverages ---> 404"
         monkeypatch.setattr(ImportData, "get_category", mock_get_category)
@@ -227,8 +236,10 @@ class TestImportData():
 
     def test_make_import_db_error(self, monkeypatch, object_test):
         """test fail import cause db problem"""
+
         def mock_get_category(self, category_name):
             self.products_to_import = [{"product_dict": "lot_of_value"}]
+
         def mock_create_product(self, product):
             return "ERROR WITH DB"
         monkeypatch.setattr(ImportData, "get_category", mock_get_category)
@@ -238,13 +249,17 @@ class TestImportData():
 
     def test_get_category_succes(self, monkeypatch, object_test):
         """test if off return data from category request"""
+
         def mock_requests_get(url):
             """mocking function get"""
+
             class MockRequests:
                 """mocking the requests return"""
+
                 def __init__(self, json_data, status_code):
                     self.json_data = json_data
                     self.status_code = status_code
+
                 def json(self):
                     """data returned"""
                     return self.json_data
@@ -258,7 +273,8 @@ class TestImportData():
                             "fromage",
                             "laitier",
                         ],
-                        "product_name_fr": "Deluxe Parmigiano Reggiano Fein Gehobelt",
+                        "product_name_fr": "Deluxe Parmigiano Reggiano"
+                                           "Fein Gehobelt",
                         "product_quantity": "100",
                         "quantity": "100 g ℮"
                     },
@@ -278,9 +294,11 @@ class TestImportData():
 
         def mock_filter_category(self, category):
             pass
+
         def mock_filter_tags(self):
             self.products_to_import = ["TEST SUCCES"]
-        monkeypatch.setattr(ImportData, "filter_category", mock_filter_category)
+        monkeypatch.setattr(ImportData, "filter_category",
+                            mock_filter_category)
         monkeypatch.setattr(ImportData, "filter_tags", mock_filter_tags)
         monkeypatch.setattr('requests.get', mock_requests_get)
         object_test.get_category("category_name")
@@ -288,43 +306,57 @@ class TestImportData():
 
     def test_get_category_product_error(self, monkeypatch, object_test):
         """test if off return no usable product"""
+
         def mock_get_request(self):
             """mocking requests.get()"""
+
             class MockRequest:
                 """ mock the request object """
+
                 def __init__(self, json_data, status_code):
                     self.json_data = json_data
                     self.status_code = status_code
+
                 def json(self):
                     """mock data returned"""
                     return self.json_data
-            data = { "datas" : "some unusable datas" }
+
+            data = {"datas": "some unusable datas"}
             return MockRequest(data, 200)
+
         def mock_filter_category(self, category_name):
             """here filter_category return a string cause of error"""
             self.data = "PRODUCT ERROR IN THIS CATEGORY"
-        monkeypatch.setattr(ImportData, "filter_category", mock_filter_category)
+        monkeypatch.setattr(ImportData, "filter_category",
+                            mock_filter_category)
         monkeypatch.setattr('requests.get', mock_get_request)
-        assert object_test.get_category("cheeses") == "PRODUCT ERROR IN THIS CATEGORY"
+        assert object_test.get_category("cheeses") == "PRODUCT ERROR IN"\
+                                                      " THIS CATEGORY"
 
     def test_get_category_status_error(self, monkeypatch, object_test):
         """test if off got a error status"""
+
         def mock_get_request(self):
             """mocking requests.get"""
+
             class MockRequest:
                 """mock the request object"""
+
                 def __init__(self, json_data, status_code):
                     self.json_data = json_data
                     self.status_code = status_code
+
                 def json(self):
                     return self.json_data
             data = "nothing cause error"
             return MockRequest(data, 404)
         monkeypatch.setattr("requests.get", mock_get_request)
-        assert object_test.get_category("category_with_error") == "category_with_error ---> 404"
+        assert object_test.get_category("category_with_error")\
+            == "category_with_error ---> 404"
 
     def test_get_or_create_nutriment_already_exist(self, db, object_test):
         """if sugar already exist"""
+
         a1 = Nutriment(name="sugar")
         a1.save()
         object_test.get_or_create_nutriment("sugar")
@@ -333,12 +365,14 @@ class TestImportData():
 
     def test_get_or_create_nutriment_not_exist(self, db, object_test):
         """if sugar isn't in db"""
+
         object_test.get_or_create_nutriment("sugar")
         a1 = Nutriment.objects.all()
         assert a1[0].name == "sugar"
 
     def test_get_or_create_aliment_already_exist(self, db, object_test):
         """aliment "chocolate" already in db"""
+
         product = {
             "allergens": "-- unknow --",
             "additives_tags": [
@@ -354,7 +388,7 @@ class TestImportData():
             "ingredients_text": "-- unknow --",
             "image_small_url": "-- unknow --",
             "nutriments": {
-                "carbohydrates_100g" : "suga",
+                "carbohydrates_100g": "suga",
                 "energy-kcal_100g": "1",
                 "fat_100g": "1",
                 "fiber_100g": "1",
@@ -373,6 +407,7 @@ class TestImportData():
 
     def test_get_or_create_aliment_not_exist(self, db, object_test):
         """aliment "chocolate" not in db"""
+
         product = {
             "category": "category_name",
             "image_url": "path/to/url",
@@ -380,7 +415,7 @@ class TestImportData():
             "product_name_fr": "chocolate",
             "nutrition_grade_fr": "a",
             "nutriments": {
-                "carbohydrates_100g" : "suga",
+                "carbohydrates_100g": "suga",
                 "energy-kcal_100g": "1",
                 "fat_100g": "1",
                 "fiber_100g": "1",
@@ -393,22 +428,24 @@ class TestImportData():
         result = object_test.get_or_create_aliment(product)
         a = Aliment.objects.get(category="category_name")
         assert a.name == "chocolate"
-        assert result == None
+        assert result is None
 
     def test_make_relation_is_ok(self, db, monkeypatch, object_test):
         """test make_relation() with valid data"""
+
         def mock_add_nutriment(self, nutriments_data):
             """make link between aliment and nutriment"""
             aliment = Aliment.objects.get(name="chocolate")
             nutriments_data = {
-                "carbohydrates_100g" : "suga",
+                "carbohydrates_100g": "suga",
                 "fat_100g": "1",
                 "proteins_100g": "1",
                 "salt_100g": "0",
             }
             for key, value in nutriments_data.items():
                 nutriment = Nutriment.objects.get(name=key)
-                nutrition = Nutrition(aliment=aliment, nutriment=nutriment, value=value)
+                nutrition = Nutrition(aliment=aliment, nutriment=nutriment,
+                                      value=value)
                 nutrition.save()
 
         product = {
@@ -418,7 +455,7 @@ class TestImportData():
             "product_name_fr": "chocolate",
             "nutrition_grade_fr": "a",
             "nutriments": {
-                "carbohydrates_100g" : "suga",
+                "carbohydrates_100g": "suga",
                 "fat_100g": "1",
                 "proteins_100g": "1",
                 "salt_100g": "0",
@@ -428,8 +465,9 @@ class TestImportData():
             nutriment = Nutriment(name=element)
             nutriment.save()
         aliment = Aliment(category=product["category"], source=product["url"],
-                    image=product["image_url"], name=product["product_name_fr"],
-                    nutrition_grade=product["nutrition_grade_fr"])
+                          image=product["image_url"],
+                          name=product["product_name_fr"],
+                          nutrition_grade=product["nutrition_grade_fr"])
         aliment.save()
         returned_value = object_test.make_relation(product)
         aliment = Aliment.objects.get(name="chocolate")
@@ -442,6 +480,7 @@ class TestImportData():
 
     def test_make_relation_got_exception(self, db, object_test):
         """test make_relation() with unvalid data"""
+
         product = {
             "allergens": "-- unknow --",
             "additives_tags": [
@@ -457,7 +496,7 @@ class TestImportData():
             "ingredients_text": "-- unknow --",
             "image_small_url": "-- unknow --",
             "nutriments": {
-                "carbohydrates_100g" : "suga",
+                "carbohydrates_100g": "suga",
                 "energy-kcal_100g": "1",
                 "fat_100g": "1",
                 "fiber_100g": "1",
@@ -472,6 +511,7 @@ class TestImportData():
 
     def test_filter_category_is_ok(self, object_test):
         """test function eponym"""
+
         object_test.data = {
             "key1": "",
             "key2": "",
@@ -574,6 +614,7 @@ class TestImportData():
 
     def test_filter_category_no_data(self, object_test):
         """test with unvalid data"""
+
         object_test.data = {
             "key1": "",
             "key2": "",
@@ -584,6 +625,7 @@ class TestImportData():
 
     def test_filter_category_few_products(self, object_test):
         """test with unvalid params"""
+
         object_test.data = {
             "key1": "",
             "key2": "",
@@ -620,6 +662,7 @@ class TestImportData():
 
     def test_filter_tags(self, object_test):
         """test function eponym"""
+
         object_test.data = [
             {
                 "product_name_fr": "IS_VALID\n",
@@ -643,7 +686,7 @@ class TestImportData():
                 "image_url": "is_valid",
                 "nutrition_grade_fr": "a",
                 "nutriments": {
-                    "carbohydrates_100g" : 1,
+                    "carbohydrates_100g": 1,
                     "energy-kcal_100g": 1,
                     "fat_100g": 1,
                     "fiber_100g": 1,
@@ -686,7 +729,7 @@ class TestImportData():
                 "image_url": "is_valid",
                 "nutrition_grade_fr": "A",
                 "nutriments": {
-                    "carbohydrates_100g" : "1",
+                    "carbohydrates_100g": "1",
                     "fat_100g": "1",
                     "proteins_100g": "1",
                     "salt_100g": "1",
@@ -699,7 +742,7 @@ class TestImportData():
                 "nutrition_grade_fr": "D",
                 "image_url": "is_valid",
                 "nutriments": {
-                    "carbohydrates_100g" : "?",
+                    "carbohydrates_100g": "?",
                     "fat_100g": "?",
                     "proteins_100g": "?",
                     "salt_100g": "?",
@@ -709,21 +752,24 @@ class TestImportData():
             },
         ]
 
+
 class TestDeleteData():
     """test cleaning class"""
+
     def test_clean_all(self, db):
         """test if all tables are deleted"""
         aliment = Aliment(name='aliment', category="aliment_cat")
         aliment.save()
         nutriment = Nutriment(name="nutriment_name")
         nutriment.save()
-        nutrition = Nutrition(aliment=aliment, nutriment=nutriment, value="something")
+        nutrition = Nutrition(aliment=aliment, nutriment=nutriment,
+                              value="something")
         nutrition.save()
         object_test = DeleteData()
         object_test.clean_all()
         aliment = Aliment.objects.all().exists()
         nutriment = Nutriment.objects.all().exists()
         nutrition = Nutrition.objects.all().exists()
-        assert aliment == False
-        assert nutriment == False
-        assert nutrition == False
+        assert aliment is False
+        assert nutriment is False
+        assert nutrition is False

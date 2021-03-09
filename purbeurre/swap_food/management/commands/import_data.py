@@ -1,5 +1,6 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from swap_food.management.commands.commands import ImportData
+
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -7,4 +8,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         maker = ImportData()
-        print(maker.make_import(options["categories"][0], options["categories"][1]))
+        print(maker.make_import(options["categories"][0],
+                                options["categories"][1]))

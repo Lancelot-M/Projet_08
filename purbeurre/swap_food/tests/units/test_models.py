@@ -1,5 +1,6 @@
 from swap_food.models import Aliment, Nutriment, Nutrition
 
+
 class Test_Aliment():
     """ test model Aliment"""
 
@@ -16,5 +17,7 @@ class Test_Aliment():
             "fat_100g": "3",
         }
         aliment.add_nutriment(nutriments_data)
-        chocolate_glucide = Nutrition.objects.get(aliment__name="chocolate", nutriment__name="carbohydrates_100g")
+        chocolate_glucide = Nutrition.objects.get(aliment__name="chocolate",
+                                                  nutriment__name="carbohydra"
+                                                  "tes_100g")
         assert chocolate_glucide.value == "10"

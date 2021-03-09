@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.http import Http404, HttpResponse
 from users.forms import CustomUserCreationForm
 
+
 def register(request):
     """Sign in page"""
     if request.method == "POST":
@@ -20,6 +21,7 @@ def register(request):
         {"form": CustomUserCreationForm}
     )
 
+
 def profil(request):
     """user's detail page"""
     if request.method == "GET":
@@ -27,6 +29,7 @@ def profil(request):
             request, "users/profil.html",
         )
     return None
+
 
 def aliments(request):
     """user's aliments page"""
@@ -37,6 +40,7 @@ def aliments(request):
             {"aliments_list": user_aliments}
         )
     raise Http404("YOU ARE NOT LOGGED !")
+
 
 def saving(request):
     """saving aliment to favori"""

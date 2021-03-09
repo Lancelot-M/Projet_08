@@ -1,5 +1,6 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from swap_food.management.commands.commands import DeleteData
+
 
 class Command(BaseCommand):
 
