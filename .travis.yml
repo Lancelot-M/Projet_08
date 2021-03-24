@@ -4,6 +4,7 @@ python:
 install:
         - pip install pipenv
         - pipenv install
-script:
+before_script:
         - cd purbeurre/
+script:
         - pytest
