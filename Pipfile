@@ -12,6 +12,9 @@ gunicorn = "*"
 django-heroku = "*"
 selenium = "*"
 python-dotenv = "*"
+flake8 = "*"
+pytest = "*"
+pytest-django = "*"
 
 [dev-packages]
 
