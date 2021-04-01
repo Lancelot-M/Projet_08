@@ -6,7 +6,7 @@ install:
         - pip install pipenv
         - pipenv install
 
-env: DJANGO_SETTINGS_MODULE="purbeurre.settings.travis"
+env: DJANGO_SETTINGS_MODULE="settings.travis"
 
 services:
         - postgresql
