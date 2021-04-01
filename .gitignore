@@ -1,3 +1,2 @@
-purbeurre/.env
-modif_css.txt
 *__pycache__*
+purbeurre/settings/production.py

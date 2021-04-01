@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = '#h)3c+qz$1^2*7$e_jx(c=s7^(su%p1c-qrjzhmuftajp501+p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -70,10 +70,6 @@ TEMPLATES = [
     },
 ]
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
-
 WSGI_APPLICATION = 'purbeurre.wsgi.application'
 
 
@@ -83,10 +79,10 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
+        'NAME': 'purbeurre',
+        'USER': 'purbeurre',
+        'PASSWORD': 'purbeurre',
+        'HOST': 'localhost',
     }
 }
 
@@ -94,22 +90,22 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-   # {
-   #     'NAME': 'django.contrib.auth.password_validation.'
-   #     'UserAttributeSimilarityValidator',
-   # },
-   # {
-   #     'NAME': 'django.contrib.auth.password_validation.'
-   #     'MinimumLengthValidator',
-   # },
-   # {
-   #     'NAME': 'django.contrib.auth.password_validation.'
-   #     'CommonPasswordValidator',
-   # },
-   # {
-   #     'NAME': 'django.contrib.auth.password_validation.'
-   #     'NumericPasswordValidator',
-   # },
+   {
+       'NAME': 'django.contrib.auth.password_validation.'
+       'UserAttributeSimilarityValidator',
+   },
+   {
+       'NAME': 'django.contrib.auth.password_validation.'
+       'MinimumLengthValidator',
+   },
+   {
+       'NAME': 'django.contrib.auth.password_validation.'
+       'CommonPasswordValidator',
+   },
+   {
+       'NAME': 'django.contrib.auth.password_validation.'
+       'NumericPasswordValidator',
+   },
 ]
 
 AUTH_USER_MODEL = 'users.MyUser'
@@ -132,9 +128,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 ROOT_URLCONF = 'purbeurre.urls'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "login"
