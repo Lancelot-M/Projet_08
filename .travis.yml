@@ -4,9 +4,7 @@ python:
 addons:
   chrome: stable
 before-install:
-  - "export DISPLAY=99:0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3
+  - google-chrome-stable --headless http://localhost
 install:
         - pip install pipenv
         - pipenv install
