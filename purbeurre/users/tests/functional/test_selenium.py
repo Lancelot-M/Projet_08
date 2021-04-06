@@ -1,5 +1,7 @@
 import time
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.keys import Keys
 
@@ -15,7 +17,9 @@ class MySeleniumTests(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.selenium = Chrome()
+        opts = Options()
+        opts.headless = True
+        cls.selenium = Chrome(options=opts)
         cls.selenium.implicitly_wait(3)
 
     @classmethod
