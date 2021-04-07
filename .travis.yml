@@ -15,4 +15,4 @@ services:
     - postgresql
   
 script:
-        - purbeurre/pytest
+    - cd purbeurre && pytest
