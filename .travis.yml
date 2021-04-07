@@ -13,6 +13,9 @@ env:
 
 services:
     - postgresql
-  
+
+before script:
+    -cd purbeurre/
+
 script:
-    - cd purbeurre && pytest
+    - pytest
