@@ -2,7 +2,9 @@ language: python
 python:
     - "3.8"
 addons:
-    chrome: stable
+    apt:
+        sources:
+            - google-chrome
 
 install:
     - pip install pipenv
@@ -15,7 +17,7 @@ services:
     - postgresql
 
 before script:
-    -cd purbeurre/
+    - cd purbeurre/
 
 script:
     - pytest
