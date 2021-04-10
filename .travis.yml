@@ -20,8 +20,8 @@ services:
     - postgresql
 
 before script:
-    - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
-    - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
+    - wget http://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_linux64.zip
+    - unzip chromedriver_linux64.zip
     - export CHROME_BIN=chromium-browser
     - cd purbeurre/
 
