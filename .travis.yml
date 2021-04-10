@@ -21,7 +21,7 @@ services:
 
 before script:
     - wget http://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_linux64.zip
-    - unzip chromedriver_linux64.zip
+    - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.8/bin/
     - export CHROME_BIN=chromium-browser
     - cd purbeurre/
 
