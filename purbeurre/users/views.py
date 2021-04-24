@@ -27,11 +27,24 @@ def register(request):
 def profil(request):
     """user's detail page"""
     if request.method == "GET":
-        print(request.user)
         return render(
             request, "users/profil.html",
         )
     return None
+
+def change_mail(request):
+    """page for change email"""
+    if request.method == "POST":
+        request.user.email = request.POST["new_email"]
+        request.user.save()
+        return render(
+        request, "users/profil.html")
+    elif request.method == "GET":
+        return render(
+            request, "users/new_mail.html",
+        )
+    return None
+
 
 
 def aliments(request):

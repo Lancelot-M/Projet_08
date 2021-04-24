@@ -8,7 +8,7 @@ from django.test import Client, RequestFactory
 
 
 class Test_Services():
-    """test view's services file"""
+    """test services file"""
     client = Client()
 
     @pytest.fixture

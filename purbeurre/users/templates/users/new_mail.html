@@ -10,8 +10,11 @@
     </div>
 {% endblock %}
 {% block Content %}
-     <div class="profil d-flex align-items-center justify-content-center">
-        <div class="border p-2">EMAIL: <span>{{ user.email }}</span></div>
-        <a href="/change_mail/" class="btn btn-primary">CHANGE EMAIL</a>
+    <div class="d-flex profil align-items-center justify-content-center">
+        <form action="/change_mail/" method="POST">
+        {% csrf_token %}
+            <input id="main-search-bar" class="form-control" type="text" name="new_email" placeholder="Nouveau Email">
+            <input type="submit" class="btn btn-primary" value="Changer">
+        </form>
     </div>
 {% endblock %}
