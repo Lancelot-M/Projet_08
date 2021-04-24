@@ -12,7 +12,7 @@ look aliments page
 
 
 class MySeleniumTests(StaticLiveServerTestCase):
-    fixtures = ["jean_nutella.json"]
+    fixtures = ["dump.json"]
 
     @classmethod
     def setUpClass(cls):
@@ -80,7 +80,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
         link.click()
         time.sleep(1)
         aliment = self.selenium.find_element_by_css_selector(".bg-light > a")
-        assert aliment.text == "crema di nocciole"
+        assert aliment.text == "pâte à tartiner cacao"
 
     def test_show_info(self):
         self.selenium.get('%s%s' % (self.live_server_url, ''))
@@ -92,9 +92,9 @@ class MySeleniumTests(StaticLiveServerTestCase):
         login.click()
         time.sleep(1)
         login = self.selenium.find_element_by_name("username")
-        login.send_keys("jean-michel")
+        login.send_keys("purbeurre")
         login = self.selenium.find_element_by_name("password")
-        login.send_keys("tesla2020")
+        login.send_keys("purbeurre")
         login = self.selenium.find_element_by_xpath("//input[@type='submit'"
                                                     "][@value='Login']")
         login.click()
@@ -106,9 +106,6 @@ class MySeleniumTests(StaticLiveServerTestCase):
                                                            "child(2)")
         login.click()
         time.sleep(1)
-        mail = self.selenium.find_element_by_css_selector(".profil > div"
-                                                          " > span")
-        assert mail.text == "mail@jeanmich.fr"
         button = self.selenium.find_element_by_css_selector("span")
         button.click()
         time.sleep(1)

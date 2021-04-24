@@ -4,6 +4,9 @@
 {% block addcss %}
     <link href="{% static 'users/style.css' %}" rel="stylesheet" />
 {% endblock %}
+{% block Scripts %}
+    <script src="{% static 'swap_food/saving.js' %}"></script>
+{% endblock %}
 {% block Header %}
     <div class="container-fluid searchealthy d-flex align-items-center justify-content-center aliments-bg">
         <div class="mt-5 px-5 py-3 rounded bubble text-primary">MES ALIMENTS ENREGISTRES</div>
@@ -21,8 +24,20 @@
                     <div>
                         <img src="{{ aliment.image }}" class="img-healthy">
                         <div class="nutriscore rounded-circle">{{ aliment.nutrition_grade }}</div>
+                            {% if aliment.name in rating_dict %}
+                            <div class="ratescore rounded">
+                                {% for key, value in rating_dict.items %}
+                                    {% if aliment.name == key %}
+                                        {% for i in value %}
+                                            <i class="fas fa-star"></i>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <a href="/info/{{ aliment.name }}">{{ aliment.name }}</a>
+                    <div id="{{ aliment.name }}" class="rating">NOTER CE PRODUIT</div>
                 </div>
             {% endfor %}
             </div>

@@ -37,3 +37,32 @@ $(document).ready(function() {
         });
     });
 });
+
+$(document).ready(function() {
+    $(".rating").on("click", function ( event ) {
+        var clicked_aliment = $(this).attr('id');
+        $('#rateModal').on('shown.bs.modal', function ( event ) {
+            $(".rate-btn").on("click", function ( event ) {
+                var clicked_rate_btn = $(this).attr('id');
+                $.ajax({
+                    method: "POST",
+                    headers: {'X-CSRFToken': getCookie('csrftoken')},
+                    url: "/rating/",
+                    data: {
+                        aliment: clicked_aliment,
+                        rate: clicked_rate_btn,
+                    },
+                    error: function( datas )
+                    {
+                        //alert("ERROR : " + errorThrown);
+                        alert(datas.content);
+                    }
+                });
+                $(document).ready(function() {
+                    document.location.reload();
+                });
+            });
+        });
+        $('#rateModal').modal('show');
+    });
+});

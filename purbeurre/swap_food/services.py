@@ -1,6 +1,7 @@
 """File with subfunction from views.py"""
 
 from swap_food.models import Nutrition
+from users.models import Rating
 
 
 class Services():
@@ -29,3 +30,20 @@ class Services():
             else:
                 nutrition_data[key] = ["bg-yellow", value]
         return nutrition_data
+
+    @staticmethod
+    def make_ratedict(request, aliments_list):
+        """Return rating formated for template"""
+        rating_dict = {}
+        for element in aliments_list:
+            try:
+                rate = Rating.objects.get(aliment_rate__name=element, myuser_rate=request.user)
+            except Rating.DoesNotExist:
+                rate = None
+            if rate:
+                if rate.rating:
+                    rate_list = []
+                    for i in range(rate.rating):
+                        rate_list.append(i)
+                    rating_dict[rate.aliment_rate.name] = rate_list
+        return rating_dict

@@ -2,6 +2,7 @@
 
 from django.shortcuts import render
 from swap_food.models import Aliment
+from users.models import Rating
 from swap_food.services import Services
 
 
@@ -23,12 +24,17 @@ def research(request):
                 request, "swap_food/results.html",
                 {"bubble": searched_aliment}
             )
+        if request.user.is_authenticated:
+            rating_dict = Services.make_ratedict(request, aliments_list)
+        else:
+            rating_dict = {}
         return render(
             request, "swap_food/results.html",
             {
                 "aliments_list": aliments_list,
                 "background": aliment.image,
-                "bubble": searched_aliment
+                "bubble": searched_aliment,
+                "rating_dict": rating_dict
             }
         )
     return None

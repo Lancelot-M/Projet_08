@@ -10159,3 +10159,17 @@ hr.light {
   color: #86EBE6;
   padding: 5px 12px 5px 12px;
 }
+
+.ratescore {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  background-color: #C45525;
+  color: #86EBE6;
+  padding: 5px;
+}
+
+.rating:hover {
+  color: black;
+  text-decoration: underline;
+}

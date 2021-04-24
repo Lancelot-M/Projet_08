@@ -18,7 +18,7 @@ def create_user(db, test_password):
                                       test_password)
     aliment = Aliment(name="chocolate")
     aliment.save()
-    user.aliments_saved.add(aliment)
+    user.aliments_pref.add(aliment)
     return user
 
 
@@ -29,21 +29,15 @@ def test_register_get(client):
 
 
 def test_register_post(client, db):
-    response = client.post('/register/', {
-        'username': "user_test_views",
+    response = client.post('/register/', data={
+        "username": "user_test_views",
         "email": "mail_test@exemple.fr",
-        "password1": "user_test_views",
-        "password2": "user_test_views"
+        "password1": "dIJFEè9#0kfokdcx",
+        "password2": "dIJFEè9#0kfokdcx"
         })
-    #account = MyUser.objects.get(username="user_test_views")
-    #assert MyUser.objects.get(email="mail_test@exemple.fr")
-    #assert response.request == ""
-    #assert response.context == ""
-    #assert response.client == ""
-    #assert response.content == ""
-    assert response.status_code == 200
-    assertTemplateUsed(response, "users/register.html")
-   
+    account = MyUser.objects.get(username="user_test_views")
+    assert MyUser.objects.get(email="mail_test@exemple.fr")
+    assert response.status_code == 302
 
 
 def test_profil(client, db, create_user, test_password):
@@ -69,4 +63,15 @@ def test_saving(client, db, create_user, test_password):
         "aliment": "wine"
         })
     assert response.status_code == 200
-    assert create_user.aliments_saved.get(name="wine")
+    assert create_user.aliments_pref.get(name="wine")
+
+
+def test_rating(client, db, create_user, test_password):
+    client.login(username=create_user.username, password=test_password)
+    response = client.post("/rating/", data={
+        "aliment": "chocolate",
+        "rate": 1
+        })
+    assert response.status_code == 200
+    assert create_user.aliments_rate.get(name="chocolate")
+    assert response.content == b'Rate done.'

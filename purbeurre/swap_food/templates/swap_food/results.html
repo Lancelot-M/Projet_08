@@ -21,10 +21,24 @@
                     <div>
                         <img src="{{ aliment.image }}" class="img-healthy">
                         <div class="nutriscore rounded-circle">{{ aliment.nutrition_grade }}</div>
+                        {% if user.is_authenticated %}
+                            {% if aliment.name in rating_dict %}
+                                <div class="ratescore rounded">
+                                    {% for key, value in rating_dict.items %}
+                                        {% if aliment.name == key %}
+                                            {% for i in value %}
+                                                <i class="fas fa-star"></i>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endif %}
                     </div>
                     <a href="/info/{{ aliment.name }}">{{ aliment.name }}</a><br>
                     {% if user.is_authenticated %}
                         <div id="{{ aliment.name }}" class="saving"><i class="fas fa-save"></i> Sauvegarder</div>
+                        <div id="{{ aliment.name }}" class="rating">NOTER CE PRODUIT</div>
                     {% else %}
                         <a href="{% url 'login' %}"><i class="fas fa-save"></i> Sauvegarder</a>
                     {% endif %}
