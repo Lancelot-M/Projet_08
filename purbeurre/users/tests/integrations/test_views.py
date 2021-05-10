@@ -37,7 +37,6 @@ def test_register_post(client, db):
         "password1": "dIJFEè9#0kfokdcx",
         "password2": "dIJFEè9#0kfokdcx"
         })
-    account = MyUser.objects.get(username="user_test_views")
     assert MyUser.objects.get(email="mail_test@exemple.fr")
     assert response.status_code == 302
 
@@ -82,12 +81,14 @@ def test_rating(client, db, create_user, test_password):
     assert create_user.aliments_rate.get(name="chocolate")
     assert response.content == b'Rate done.'
 
+
 def test_get_changemail(client, db, create_user, test_password):
     """test eponym function"""
     client.login(username=create_user.username, password=test_password)
     response = client.get('/change_mail/')
     assert response.status_code == 200
     assertTemplateUsed(response, "users/new_mail.html")
+
 
 def test_post_changemail(client, db, create_user, test_password):
     """test eponym function"""
@@ -98,3 +99,14 @@ def test_post_changemail(client, db, create_user, test_password):
     assert response.status_code == 200
     assertTemplateUsed(response, "users/profil.html")
     assertContains(response, "new_email@email.com")
+
+
+def test_changemail_error(client, db, create_user, test_password):
+    """test eponym function"""
+    client.login(username=create_user.username, password=test_password)
+    response = client.post('/change_mail/', data={
+        "new_email": "not_a_valid_email"
+        })
+    assert response.status_code == 200
+    assertTemplateUsed(response, "users/profil.html")
+    assertContains(response, "Saisissez une adresse de courriel valide.")

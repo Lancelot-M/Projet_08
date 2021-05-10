@@ -1,11 +1,11 @@
 """Users's views file"""
 
 import json
+from django.core.validators import validate_email, ValidationError
 from django.contrib.auth import login
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.http import Http404, HttpResponse
-from users.models import Rating
 from users.forms import CustomUserCreationForm
 from swap_food.services import Services
 
@@ -32,19 +32,29 @@ def profil(request):
         )
     return None
 
+
 def change_mail(request):
     """page for change email"""
     if request.method == "POST":
-        request.user.email = request.POST["new_email"]
-        request.user.save()
-        return render(
-        request, "users/profil.html")
+        try:
+            validate_email(request.POST["new_email"])
+            request.user.email = request.POST["new_email"]
+            request.user.save()
+            return render(
+                request, "users/profil.html",
+            )
+        except ValidationError:
+            return render(
+                request, "users/profil.html",
+                {
+                    "error": validate_email.message,
+                }
+            )
     elif request.method == "GET":
         return render(
             request, "users/new_mail.html",
         )
     return None
-
 
 
 def aliments(request):

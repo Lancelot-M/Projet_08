@@ -2,7 +2,6 @@
 
 from django.shortcuts import render
 from swap_food.models import Aliment
-from users.models import Rating
 from swap_food.services import Services
 
 

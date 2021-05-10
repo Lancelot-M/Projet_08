@@ -1,6 +1,5 @@
 import time
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.keys import Keys

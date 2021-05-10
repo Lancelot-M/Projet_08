@@ -14,9 +14,8 @@ class Test_Services():
     @pytest.fixture
     def create_user(self, db):
         self.factory = RequestFactory()
-        self.user = MyUser.objects.create_user("user_test", "user_test@email.com",
-                                          "password")
-
+        self.user = MyUser.objects.create_user(
+            "user_test", "user_test@email.com", "password")
 
     def test_info_aliment(self, db):
         """test the static method info_aliment"""
@@ -41,7 +40,6 @@ class Test_Services():
             "proteines": ["bg-success", "0.1"],
         }
 
-
     def test_make_ratedict(self, db, create_user):
         """teste dict creation"""
         request = self.factory.get('/')
@@ -50,7 +48,7 @@ class Test_Services():
         aliment = Aliment(name="chocolate")
         aliment.save()
         aliments_list.append(aliment)
-        data_send={
+        data_send = {
             "aliment": "chocolate",
             "rate": 1
         }
@@ -62,4 +60,5 @@ class Test_Services():
         aliment.save()
         aliments_list.append(aliment)
 
-        assert Services.make_ratedict(request, aliments_list) == {"chocolate": [0]}
+        assert Services.make_ratedict(
+            request, aliments_list) == {"chocolate": [0]}

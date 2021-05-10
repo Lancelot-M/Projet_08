@@ -13,13 +13,14 @@ def test_save_aliment(db):
     user.save_aliment("chocolate")
     assert user.aliments_pref.filter(name="chocolate")
 
+
 def test_rate_aliment(db):
     """User's method"""
     choco = Aliment(name="chocolate")
     choco.save()
     user = MyUser.objects.create_user("user_test", "user_test@email.com",
                                       "password")
-    data_send={
+    data_send = {
         "aliment": "chocolate",
         "rate": 1
     }

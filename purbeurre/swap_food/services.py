@@ -37,7 +37,8 @@ class Services():
         rating_dict = {}
         for element in aliments_list:
             try:
-                rate = Rating.objects.get(aliment_rate__name=element, myuser_rate=request.user)
+                rate = Rating.objects.get(aliment_rate__name=element,
+                                          myuser_rate=request.user)
             except Rating.DoesNotExist:
                 rate = None
             if rate:

@@ -27,7 +27,7 @@ $(document).ready(function() {
             dataType : "json",
             success: function( datas )
             {
-                $(".modal-body").html("Aliment : " + datas + " ajouté aux favoris !!");
+                $("#exampleModal").find(".modal-body").html("Aliment : " + datas + " ajouté aux favoris !!");
                 $('#exampleModal').modal('show');
             },
             error: function( errorThrown )
@@ -52,14 +52,12 @@ $(document).ready(function() {
                         aliment: clicked_aliment,
                         rate: clicked_rate_btn,
                     },
-                    error: function( datas )
-                    {
-                        //alert("ERROR : " + errorThrown);
-                        alert(datas.content);
+                    success: function ( result ) {
+                        document.location.reload();
+                    },
+                    error: function ( datas ) {
+                        alert("ERROR : " + errorThrown);
                     }
-                });
-                $(document).ready(function() {
-                    document.location.reload();
                 });
             });
         });
